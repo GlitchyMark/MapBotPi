@@ -1,5 +1,8 @@
 #pragma once
 
+#include "include/serial/serial.h"
+#include "include/rapidjson/document.h"
+
 class Robot {
 
     public:
@@ -20,4 +23,11 @@ class Robot {
         
         long current_time;
         GameState state;
+
+        serial::Serial mv_left;
+        serial::Serial mv_right;
+        serial::Serial motor_driver;
+
+        rapidjson::Document left_json;
+        rapidjson::Document right_json;
 }
