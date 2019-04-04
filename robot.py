@@ -12,13 +12,19 @@ class Robot:
         pass
 
     def run(self):
-        pass
+        self.updatePosition()
+        self.updateState()
+        self.execute()
 
     def updatePosition(self):
-        pass 
+        self.mv_left.write("s")
+        self.left_data = self.mv_left.readline()
+        self.mv_right.write("s")
+        self.right_data = self.mv_right.readline()
     
     def updateState(self):
         pass
+
 
     def execute(self):
         pass
