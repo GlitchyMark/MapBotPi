@@ -1,4 +1,6 @@
 import serial
+import logic as gl
+import mapping as m
 
 from serial_cfg import *
 
@@ -7,6 +9,9 @@ class Robot:
         self.mv_left = serial.Serial(MV_LEFT_PORT, BAUD_RATE)
         self.mv_right = serial.Serial(MV_RIGHT_PORT, BAUD_RATE)
         self.motor_driver = serial.Serial(MOTOR_DRIVER_PORT, BAUD_RATE)
+
+        self.logic = gl.GameLogic(self)
+        self.mapper = m.Mapper(self)
         
     def __del__(self):
         pass
@@ -27,8 +32,5 @@ class Robot:
 
 
     def execute(self):
-        pass
+        # self.current_state.func()
 
-class State:
-    def __init__(self):
-        pass
