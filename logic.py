@@ -22,7 +22,7 @@ class StateBuffer:
 
     def addState(self, state):
         self.buffer.append(state)
-        self.current_state = self.buffer[len(self.buffer)]  # current_state is the new addition
+        self.current_state = self.buffer[len(self.buffer)-1]  # current_state is the new addition
         if len(self.buffer) > 10:
             self.buffer.pop(0)  # remove the head
 
@@ -58,4 +58,4 @@ class GameLogic:
         pass
         
     def debug(self):
-        pass
+        self.owner.motor_driver.moveFR(10)

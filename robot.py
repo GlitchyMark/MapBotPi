@@ -23,6 +23,7 @@ class Robot:
         self.updatePosition()
         self.updateState()
         self.execute()
+        self.logic.debug()
 
     def updatePosition(self):
         self.mv_left.write("s")
