@@ -6,6 +6,11 @@ class MotorDriverInterface:
     def __init__(self):
         self.port = serial.Serial(MOTOR_DRIVER_PORT, BAUD_RATE)
         self.setMotionAllowed(True)
+        self.setTargetVelocities(10, 10)
+
+    def debugWrite(self, s):
+        self.port.write(s)
+        print(s)
 
     def setMotionAllowed(self, value):
         if value is True:
@@ -64,10 +69,10 @@ class MotorDriverInterface:
 
     def moveFR(self, f=None, r=None):
         if f is not None:
-            self.port.write("[setCommandX=" + str(f) + "]")
+            self.debugWrite("[setCommandX=" + str(f) + "]")
         if r is not None:
-            self.port.write("[setCommandY=" + str(r) + "]")
-        self.port.write("[moveFR=0.000]")
+            self.debugWrite("[setCommandY=" + str(r) + "]")
+        self.debugWrite("[moveFR=0]")
 
     def rotateTo(self, theta):
         self.port.write("[rotateTo=" + str(theta) + "]")
