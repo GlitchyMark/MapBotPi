@@ -6,9 +6,9 @@ class MotorDriverInterface:
     def __init__(self):
         self.port = serial.Serial(MOTOR_DRIVER_PORT, BAUD_RATE)
         self.setMotionAllowed(True)
-        self.setTargetVelocities(5, 5)
-        self.setMaxVelocities(10, 10)
-        self.setMaxAccelerations(5, 5)
+        self.setTargetVelocities(5, 5, 5)
+        self.setMaxVelocities(10, 10, 10)
+        self.setMaxAccelerations(5, 5, 5)
 
     def __del__(self):
         self.setMotionAllowed(False)
