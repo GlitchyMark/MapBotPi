@@ -19,12 +19,12 @@ class MotorDriverInterface:
 
     def setMotionAllowed(self, value):
         if value is True:
-            self.port.write(b"[setMotionAllowed=1]")
+            self.debugWrite(b"[setMotionAllowed=1]")
         else:
-            self.port.write(b"[setMotionAllowed=0]")
+            self.debugWrite(b"[setMotionAllowed=0]")
 
     def stop(self):
-        self.port.write(b"[stop=0]")
+        self.debugWrite(b"[stop=0]")
 
     def setTargetVelocities(self, x=None, y=None, a=None):
         if x is not None:
@@ -46,31 +46,31 @@ class MotorDriverInterface:
         
     def setMaxAccelerations(self, x=None, y=None, a=None):
         if x is not None:
-            self.port.write(b"[setCommandX=" + str(x).encode('ascii') + b"]")
+            self.debugWrite(b"[setCommandX=" + str(x).encode('ascii') + b"]")
         if y is not None:
-            self.port.write(b"[setCommandY=" + str(y).encode('ascii') + b"]")
+            self.debugWrite(b"[setCommandY=" + str(y).encode('ascii') + b"]")
         if a is not None:
-            self.port.write(b"[setCommandA=" + str(a).encode('ascii') + b"]")
-        self.port.write(b"[setMaxAccelerations=0]")
+            self.debugWrite(b"[setCommandA=" + str(a).encode('ascii') + b"]")
+        self.debugWrite(b"[setMaxAccelerations=0]")
 
     def setMicrostepping(self, step):
-        self.port.write(b"[setMicrostepping=" + str(step & 0xFF) + b"]")
+        self.debugWrite(b"[setMicrostepping=" + str(step & 0xFF) + b"]")
 
     def gotoXYA(self, x=None, y=None, a=None):
         if x is not None:
-            self.port.write(b"[setCommandX=" + str(x).encode('ascii') + b"]")
+            self.debugWrite(b"[setCommandX=" + str(x).encode('ascii') + b"]")
         if y is not None:
-            self.port.write(b"[setCommandY=" + str(y).encode('ascii') + b"]")
+            self.debugWrite(b"[setCommandY=" + str(y).encode('ascii') + b"]")
         if a is not None:
-            self.port.write(b"[setCommandA=" + str(a).encode('ascii') + b"]")
-        self.port.write(b"[gotoXYA=0]")
+            self.debugWrite(b"[setCommandA=" + str(a).encode('ascii') + b"]")
+        self.debugWrite(b"[gotoXYA=0]")
 
     def gotoXY(self, x=None, y=None, a=None):
         if x is not None:
-            self.port.write(b"[setCommandX=" + str(x).encode('ascii') + b"]")
+            self.debugWrite(b"[setCommandX=" + str(x).encode('ascii') + b"]")
         if y is not None:
-            self.port.write(b"[setCommandY=" + str(y).encode('ascii') + b"]")
-        self.port.write(b"[gotoXY=0]")
+            self.debugWrite(b"[setCommandY=" + str(y).encode('ascii') + b"]")
+        self.debugWrite(b"[gotoXY=0]")
 
     def moveFR(self, f=None, r=None):
         if f is not None:
@@ -80,17 +80,17 @@ class MotorDriverInterface:
         self.debugWrite(b"[moveFR=0]")
 
     def rotateTo(self, theta):
-        self.port.write(b"[rotateTo=" + str(theta).encode('ascii') + b"]")
+        self.debugWrite(b"[rotateTo=" + str(theta).encode('ascii') + b"]")
 
     def rotate(self, theta):  
-        self.port.write(b"[rotate=" + str(theta).encode('ascii') + b"]")
+        self.debugWrite(b"[rotate=" + str(theta).encode('ascii') + b"]")
 
     def resetPosition(self, x=None, y=None, a=None):
         if x is not None:
-            self.port.write(b"[setCommandX=" + str(x).encode('ascii') + b"]")
+            self.debugWrite(b"[setCommandX=" + str(x).encode('ascii') + b"]")
         if y is not None:
-            self.port.write(b"[setCommandY=" + str(y).encode('ascii') + b"]")
+            self.debugWrite(b"[setCommandY=" + str(y).encode('ascii') + b"]")
         if a is not None:
-            self.port.write(b"[setCommandA=" + str(a).encode('ascii') + b"]")
-        self.port.write(b"[resetPosition=0]")
+            self.debugWrite(b"[setCommandA=" + str(a).encode('ascii') + b"]")
+        self.debugWrite(b"[resetPosition=0]")
         print(self.port.readline())
