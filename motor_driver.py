@@ -12,63 +12,63 @@ class MotorDriverInterface:
         self.setMotionAllowed(False)
 
     def debugWrite(self, s):
-        self.port.write(s)
+        self.debugWrite(s)
         print(s)
 
     def setMotionAllowed(self, value):
         if value is True:
-            self.port.write("[setMotionAllowed=1]")
+            self.debugWrite("[setMotionAllowed=1]")
         else:
-            self.port.write("[setMotionAllowed=0]")
+            self.debugWrite("[setMotionAllowed=0]")
 
     def stop(self):
-        self.port.write("[stop=0]")
+        self.debugWrite("[stop=0]")
 
     def setTargetVelocities(self, x=None, y=None, a=None):
         if x is not None:
-            self.port.write("[setCommandX=" + str(x) + "]")
+            self.debugWrite("[setCommandX=" + str(x) + "]")
         if y is not None:
-            self.port.write("[setCommandY=" + str(y) + "]")
+            self.debugWrite("[setCommandY=" + str(y) + "]")
         if a is not None:
-            self.port.write("[setCommandA=" + str(a) + "]")
-        self.port.write("[setTargetVelocities=0]")  
+            self.debugWrite("[setCommandA=" + str(a) + "]")
+        self.debugWrite("[setTargetVelocities=0]")  
 
     def setMaxVelocities(self, x=None, y=None, a=None):
         if x is not None:
-            self.port.write("[setCommandX=" + str(x) + "]")
+            self.debugWrite("[setCommandX=" + str(x) + "]")
         if y is not None:
-            self.port.write("[setCommandY=" + str(y) + "]")
+            self.debugWrite("[setCommandY=" + str(y) + "]")
         if a is not None:
-            self.port.write("[setCommandA=" + str(a) + "]")
-        self.port.write("[setMaxVelocities=0]") 
+            self.debugWrite("[setCommandA=" + str(a) + "]")
+        self.debugWrite("[setMaxVelocities=0]") 
         
     def setMaxAccelerations(self, x=None, y=None, a=None):
         if x is not None:
-            self.port.write("[setCommandX=" + str(x) + "]")
+            self.debugWrite("[setCommandX=" + str(x) + "]")
         if y is not None:
-            self.port.write("[setCommandY=" + str(y) + "]")
+            self.debugWrite("[setCommandY=" + str(y) + "]")
         if a is not None:
-            self.port.write("[setCommandA=" + str(a) + "]")
-        self.port.write("[setMaxAccelerations=0]")     
+            self.debugWrite("[setCommandA=" + str(a) + "]")
+        self.debugWrite("[setMaxAccelerations=0]")     
 
     def setMicrostepping(self, step):
-        self.port.write("[setMicrostepping=" + str(step & 0xFF) + "]")
+        self.debugWrite("[setMicrostepping=" + str(step & 0xFF) + "]")
 
     def gotoXYA(self, x=None, y=None, a=None):
         if x is not None:
-            self.port.write("[setCommandX=" + str(x) + "]")
+            self.debugWrite("[setCommandX=" + str(x) + "]")
         if y is not None:
-            self.port.write("[setCommandY=" + str(y) + "]")
+            self.debugWrite("[setCommandY=" + str(y) + "]")
         if a is not None:
-            self.port.write("[setCommandA=" + str(a) + "]")
-        self.port.write("[gotoXYA=0]")
+            self.debugWrite("[setCommandA=" + str(a) + "]")
+        self.debugWrite("[gotoXYA=0]")
 
     def gotoXY(self, x=None, y=None, a=None):
         if x is not None:
-            self.port.write("[setCommandX=" + str(x) + "]")
+            self.debugWrite("[setCommandX=" + str(x) + "]")
         if y is not None:
-            self.port.write("[setCommandY=" + str(y) + "]")
-        self.port.write("[gotoXY=0]")  
+            self.debugWrite("[setCommandY=" + str(y) + "]")
+        self.debugWrite("[gotoXY=0]")  
 
     def moveFR(self, f=None, r=None):
         if f is not None:
@@ -78,17 +78,17 @@ class MotorDriverInterface:
         self.debugWrite("[moveFR=0]")
 
     def rotateTo(self, theta):
-        self.port.write("[rotateTo=" + str(theta) + "]")
+        self.debugWrite("[rotateTo=" + str(theta) + "]")
 
     def rotate(self, theta):  
-        self.port.write("[rotate=" + str(theta) + "]") 
+        self.debugWrite("[rotate=" + str(theta) + "]") 
 
     def resetPosition(self, x=None, y=None, a=None):
         if x is not None:
-            self.port.write("[setCommandX=" + str(x) + "]")
+            self.debugWrite("[setCommandX=" + str(x) + "]")
         if y is not None:
-            self.port.write("[setCommandY=" + str(y) + "]")
+            self.debugWrite("[setCommandY=" + str(y) + "]")
         if a is not None:
-            self.port.write("[setCommandA=" + str(a) + "]")
-        self.port.write("[resetPosition=0]")
+            self.debugWrite("[setCommandA=" + str(a) + "]")
+        self.debugWrite("[resetPosition=0]")
         print(self.port.readline())
