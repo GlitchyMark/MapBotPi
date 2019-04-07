@@ -1,3 +1,5 @@
+import time
+
 class State:
     def __init__(self, xpos, ypos, targetXpos, targetYpos, theta, func):
         self.xpos = xpos
@@ -62,3 +64,5 @@ class GameLogic:
     def debug(self):
         print("Do we get here?")
         self.owner.motor_driver.moveFR(10, 7)
+        time.sleep(3)
+
