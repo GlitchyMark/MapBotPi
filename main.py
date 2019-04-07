@@ -21,3 +21,5 @@ def main():
 
 if __name__ == "__main__":
     start_button.when_pressed = main
+    while(True):
+        pass
