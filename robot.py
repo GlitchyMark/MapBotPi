@@ -25,10 +25,11 @@ class Robot:
         self.execute()
 
     def updatePosition(self):
-        self.mv_left.write("s")
-        self.left_data = json.loads(self.mv_left.readline())
-        self.mv_right.write("s")
-        self.right_data = json.loads(self.mv_right.readline())
+        pass
+        # self.mv_left.write("s")
+        # self.left_data = json.loads(self.mv_left.readline())
+        # self.mv_right.write("s")
+        # self.right_data = json.loads(self.mv_right.readline())
   
     def updateState(self):
         pass
