@@ -5,6 +5,7 @@ from serial_cfg import *
 class MotorDriverInterface:
     def __init__(self):
         self.port = serial.Serial(MOTOR_DRIVER_PORT, BAUD_RATE)
+        self.setMotionAllowed()
 
     def setMotionAllowed(self):
         self.port.write("[setMotionAllowed=0]")
@@ -63,7 +64,7 @@ class MotorDriverInterface:
             self.port.write("[setCommandX=" + str(f) + "]")
         if r is not None:
             self.port.write("[setCommandY=" + str(r) + "]")
-        self.port.write("[moveFR=0]")
+        self.port.write("[moveFR=0.000]")
 
     def rotateTo(self, theta):
         self.port.write("[rotateTo=" + str(theta) + "]")
@@ -78,4 +79,5 @@ class MotorDriverInterface:
             self.port.write("[setCommandY=" + str(y) + "]")
         if a is not None:
             self.port.write("[setCommandA=" + str(a) + "]")
-        self.port.write("[resetPosition=0]") 
+        self.port.write("[resetPosition=0]")
+        print(self.port.readline())

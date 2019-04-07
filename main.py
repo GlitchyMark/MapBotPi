@@ -10,7 +10,7 @@ def main():
     while True:
         if len(sys.argv) > 1 and sys.argv[1] == "debug":
             r.logic.debug()
-            print(r.motor_driver.port.readline())
+            # print(r.motor_driver.port.readline())
         else:
             r.run()
 
