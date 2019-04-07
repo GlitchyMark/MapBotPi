@@ -8,7 +8,9 @@ r = robot.Robot()
 
 def main():
     while True:
+        print("main loop\n")
         if len(sys.argv) > 1 and sys.argv[1] == "debug":
+            print("debug loop\n")
             r.logic.debug()
         else:
             r.run()
