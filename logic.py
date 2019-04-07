@@ -1,7 +1,9 @@
 class State:
-    def __init__(self, xpos, ypos, theta, func):
+    def __init__(self, xpos, ypos, targetXpos, targetYpos, theta, func):
         self.xpos = xpos
         self.ypos = ypos
+        self.targetXpos = targetXpos
+        self.targetYpos = targetYpos
         self.theta = theta
         self.func = func
 
