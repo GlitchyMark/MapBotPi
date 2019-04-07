@@ -1,4 +1,5 @@
 import sys
+
 import robot
 
 from gpiozero import Button
@@ -12,8 +13,7 @@ def main():
             r.logic.debug()
             # print(r.motor_driver.port.readline())
         else:
-            r.run()
-
+            r.run()    
 
 if __name__ == "__main__":
     start_button.when_pressed = main

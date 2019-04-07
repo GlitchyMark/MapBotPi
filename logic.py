@@ -60,4 +60,4 @@ class GameLogic:
         pass
         
     def debug(self):
-        self.owner.motor_driver.moveFR(10, 0)
+        self.owner.motor_driver.moveFR(3, 0)

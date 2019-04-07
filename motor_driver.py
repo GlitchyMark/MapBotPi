@@ -8,6 +8,9 @@ class MotorDriverInterface:
         self.setMotionAllowed(True)
         self.setTargetVelocities(10, 10)
 
+    def __del__(self):
+        self.setMotionAllowed(False)
+
     def debugWrite(self, s):
         self.port.write(s)
         print(s)
