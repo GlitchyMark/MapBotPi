@@ -1,6 +1,6 @@
 import serial
 
-from serial_cfg import *
+from serial_cfg import MOTOR_DRIVER_PORT, BAUD_RATE
 
 class MotorDriverInterface:
     def __init__(self):

@@ -61,4 +61,4 @@ class GameLogic:
         
     def debug(self):
         print("Do we get here?")
-        self.owner.motor_driver.moveFR(3, 0)
+        self.owner.motor_driver.moveFR(10, 7)
