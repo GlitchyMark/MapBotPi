@@ -63,8 +63,8 @@ class GameLogic:
         
     def debug(self):
         print("Do we get here?")
-        self.owner.motor_driver.moveFR(10000, 0)
         self.owner.motor_driver.rotate(10000)
+        self.owner.motor_driver.moveFR(10000, 0)
         while True:
             print(self.owner.motor_driver.port.readline())
             time.sleep(1)
