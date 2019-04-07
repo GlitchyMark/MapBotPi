@@ -1,4 +1,5 @@
 import serial
+import time
 
 from serial_cfg import MOTOR_DRIVER_PORT, BAUD_RATE
 
@@ -17,6 +18,7 @@ class MotorDriverInterface:
     def debugWrite(self, s):
         self.port.write(s)
         print(s)
+        time.sleep(0.0001)
 
     def setMotionAllowed(self, value):
         if value is True:
