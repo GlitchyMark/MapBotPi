@@ -4,7 +4,7 @@ import robot
 
 from gpiozero import Button
 
-start_button = Button(17)    # update with pin number
+start_button = Button(19, pull_up=False)
 while True:
     print(start_button.is_pressed)
 r = robot.Robot()
