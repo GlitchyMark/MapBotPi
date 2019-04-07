@@ -5,10 +5,13 @@ from serial_cfg import *
 class MotorDriverInterface:
     def __init__(self):
         self.port = serial.Serial(MOTOR_DRIVER_PORT, BAUD_RATE)
-        self.setMotionAllowed()
+        self.setMotionAllowed(True)
 
-    def setMotionAllowed(self):
-        self.port.write("[setMotionAllowed=0]")
+    def setMotionAllowed(self, value):
+        if value is True:
+            self.port.write("[setMotionAllowed=1]")
+        else:
+            self.port.write("[setMotionAllowed=0]")
 
     def stop(self):
         self.port.write("[stop=0]")
