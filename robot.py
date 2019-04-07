@@ -9,8 +9,8 @@ from serial_cfg import *
 
 class Robot:
     def __init__(self):
-        self.mv_left = serial.Serial(MV_LEFT_PORT, BAUD_RATE)
-        self.mv_right = serial.Serial(MV_RIGHT_PORT, BAUD_RATE)
+        # self.mv_left = serial.Serial(MV_LEFT_PORT, BAUD_RATE)
+        # self.mv_right = serial.Serial(MV_RIGHT_PORT, BAUD_RATE)
 
         self.motor_driver = MotorDriverInterface()
         self.logic = GameLogic(self)
