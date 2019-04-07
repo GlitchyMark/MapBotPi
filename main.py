@@ -4,7 +4,7 @@ import robot
 
 from gpiozero import Button
 
-start_button = Button(1)    # update with pin number
+start_button = Button(17)    # update with pin number
 r = robot.Robot()
 
 def main():
