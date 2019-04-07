@@ -5,6 +5,8 @@ import robot
 from gpiozero import Button
 
 start_button = Button(17)    # update with pin number
+while True:
+    print(start_button.is_pressed)
 r = robot.Robot()
 
 if len(sys.argv) > 1 and sys.argv[1] == "shutdown":
@@ -21,5 +23,5 @@ def main():
 
 if __name__ == "__main__":
     start_button.when_pressed = main
-    while(True):
+    while True:
         pass
