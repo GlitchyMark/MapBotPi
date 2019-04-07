@@ -5,8 +5,6 @@ import robot
 from gpiozero import Button
 
 start_button = Button(19, pull_up=False)
-while True:
-    print(start_button.is_pressed)
 r = robot.Robot()
 
 if len(sys.argv) > 1 and sys.argv[1] == "shutdown":
