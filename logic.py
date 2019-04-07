@@ -65,6 +65,10 @@ class GameLogic:
         print("Do we get here?")
         while True:
             self.owner.motor_driver.resetPosition(0, 0, 0)
-            self.owner.motor_driver.gotoXYA(10, 10, 90)
+            self.owner.motor_driver.setMaxVelocities(2,2,2)
+            self.owner.motor_driver.setMaxAccelerations(2,2,2)
+            self.owner.motor_driver.moveFR(0, 10)
+            self.owner.motor_driver.rotateTo(1000)
+           # self.owner.motor_driver.gotoXYA(10, 10, 90)
             print(self.owner.motor_driver.port.readline())
-            time.sleep(2)
+            time.sleep(100)
