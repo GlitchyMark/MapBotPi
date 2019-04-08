@@ -2,11 +2,9 @@ import serial
 import time
 import json
 
-from serial_cfg import MOTOR_DRIVER_PORT, BAUD_RATE
-
 class MotorDriverInterface:
-    def __init__(self):
-        self.port = serial.Serial(MOTOR_DRIVER_PORT, BAUD_RATE)
+    def __init__(self, address, baud):
+        self.port = serial.Serial(address, baud)
         self.setMotionAllowed(True)
         # self.setTargetVelocities(0.3, 0.3, 0.25)
         self.setMaxVelocities(5, 5, 5)

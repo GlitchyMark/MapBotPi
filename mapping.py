@@ -15,11 +15,11 @@ class Mapper:
     def getCurrPosFromPole(self, color, theta, distance_from):
         ref_pos = self.pos_table[color]
         xpos = distance_from * math.sin(theta) + ref_pos[0]
-        if xpos > 180:
-            xpos -= 180
+        if xpos > 108:
+            xpos -= 108
         ypos = distance_from * math.cos(theta) + ref_pos[1]
-        if ypos > 180:
-            ypos -= 180
+        if ypos > 108:
+            ypos -= 108
         return xpos, ypos
 
             
