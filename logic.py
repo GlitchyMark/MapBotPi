@@ -1,3 +1,11 @@
+##
+##  VCU IEEE ROBOT 2018 - 2019
+##  
+##  logic.py
+##  Written by Xander Will / Mark Johnston
+##
+##  'Classes for performing game logic'
+
 import time
 
 class State:

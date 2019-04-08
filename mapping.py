@@ -1,6 +1,18 @@
+##
+##  VCU IEEE ROBOT 2018 - 2019
+##  
+##  mapping.py
+##  Written by Xander Will
+##
+##  'Functions for calculating location'
+
 import math
 
 class Mapper:
+    """ Right now just used for getting
+        the current position, may get
+        phased out """
+
     # everything is in inches!!!
     pos_table = {
         "yellow" :  (0, 0),
@@ -25,6 +37,9 @@ class Mapper:
             
 
 class Block:
+    """ Was used for tracking blocks,
+        may get removed """
+
     def __init__(self, color, xpos, ypos, theta, distance_from, pole=False):
         self.color = color
         self.pole = pole

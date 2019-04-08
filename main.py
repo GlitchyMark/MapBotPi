@@ -1,3 +1,11 @@
+##
+##  VCU IEEE ROBOT 2018 - 2019
+##  
+##  main.py
+##  Written by Xander Will
+##
+##  'Main loop + terminal argument handling'
+
 import sys
 
 import robot

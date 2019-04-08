@@ -1,3 +1,13 @@
+##
+##  VCU IEEE ROBOT 2018 - 2019
+##  
+##  vision/main.py
+##  Written by Akib Rhast
+##
+##  'Object detection code'
+
+# todo: add green tracking, add serial, refactor
+
 import sensor, image, time, pyb
 thresholds = [(30, 100, 15, 127, 15, 127),
               (30, 100, -21, -3, -56, -14),

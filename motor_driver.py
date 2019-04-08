@@ -1,8 +1,20 @@
+##
+##  VCU IEEE ROBOT 2018 - 2019
+##  
+##  motor_driver.py
+##  Written by Xander Will
+##
+##  'OO interface for 2017 motor driver'
+
 import serial
 import time
 import json
 
 class MotorDriverInterface:
+    """ Interface for talking to the
+        motor driver, each method wraps
+        a set of commands"""
+
     def __init__(self, address, baud):
         self.port = serial.Serial(address, baud)
         self.setMotionAllowed(True)

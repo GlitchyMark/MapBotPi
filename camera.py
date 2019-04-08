@@ -1,3 +1,11 @@
+##
+##  VCU IEEE ROBOT 2018 - 2019
+##  
+##  camera.py
+##  Written by Xander Will
+##
+##  'Handles data communication with OpenMV camera'
+
 import serial
 import json
 

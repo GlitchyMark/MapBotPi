@@ -1,6 +1,18 @@
+##
+##  VCU IEEE ROBOT 2018 - 2019
+##  
+##  positioning.py
+##  Written by Xander Will
+##
+##  'Wrappers for various C accessory drivers'
+
+
 from ctypes import CDLL
 
 class Accelerometer:
+    """ Wrapper for Jamie's accelerometer
+        driver """
+
     def __init__(self):
         self.accel_lib = CDLL("something.so")
         self.accel_lib.init()

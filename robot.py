@@ -1,3 +1,11 @@
+##
+##  VCU IEEE ROBOT 2018 - 2019
+##  
+##  robot.py
+##  Written by Xander Will
+##
+##  'Main class that directs game loop'
+
 import serial
 import json
 import time
@@ -11,6 +19,11 @@ from camera import Camera
 from serial_cfg import MV_PORT, MOTOR_DRIVER_PORT, BAUD_RATE
 
 class Robot:
+    """ Director class, holds the game loop
+        as well as data collection, state 
+        buffer manipulation, time management
+        and minor bits of logic """
+        
     def __init__(self):
         self.start_time = time.time()
 

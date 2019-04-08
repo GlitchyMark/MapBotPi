@@ -1,3 +1,11 @@
+##
+##  VCU IEEE ROBOT 2018 - 2019
+##  
+##  threshold.py
+##  Written by Xander Will
+##
+##  'Thresholding for arena walls'
+
 import image
 import config as g
 
