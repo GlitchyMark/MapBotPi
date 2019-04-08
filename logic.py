@@ -1,6 +1,9 @@
 import time
 
 class State:
+    """ Used to track data between logic states, and
+        to preserve old data as well """
+
     def __init__(self, xpos, ypos, targetXpos, targetYpos, theta, func, prev_func):
         self.xpos = xpos
         self.ypos = ypos
@@ -25,7 +28,12 @@ class State:
         else:
             return True
 
+TOLERANCE = 3.0
 class StateBuffer:
+    """ Wrapper for our list of states 
+        Use current_state directly to 
+        get the current_state """
+
     def __init__(self):
         self.buffer = list()
         self.current_state = None
@@ -51,14 +59,22 @@ class StateBuffer:
         except IndexError:
             return None
 
+    def reversed(self):
+        return reversed(self.buffer)
+
 
 class GameLogic:
+    """ The actual state machine, holds
+        all of the functions for robot execution """
+
     def __init__(self, owner):
         self.owner = owner
         self.motor_driver = owner.motor_driver
         self.state_buffer = owner.state_buffer
 
     def startUp(self):
+        """ Initial state, finds the first position
+            of our circle """
         cs = self.state_buffer.current_state
         if cs.prev_func != self.startUp:        # state entry
             cs.targetXpos = 54   # halfway point of the field
@@ -69,13 +85,14 @@ class GameLogic:
             self.motor_driver.gotoXYA(cs.targetXpos, cs.targetYpos, 69) # dunno A yet
             cs.next_func = self.startUp
         else:   # wait until at circle
-            if checkIfClose(cs.xpos, cs.targetXpos, cs.ypos, cs.targetYpos, 3) == True:
+            if checkIfClose(cs.xpos, cs.targetXpos, cs.ypos, cs.targetYpos, TOLERANCE) == True:
                 cs.next_func = self.setupCircle  # transition to setupCircle state
             else:
                 cs.next_func = self.startUp
-        
 
     def setupCircle(self):
+        """ Sends the motor driver command that
+            will begin robot rotation """
         cs = self.state_buffer.current_state
         radius = 0  # add increment radius code, based on however we're doing that
                     # if we're gonna properly spiral, may need to add code that moves the robot in a bit
@@ -83,8 +100,10 @@ class GameLogic:
         cs.next_func = self.followCircle
     
     def followCircle(self):
+        """ Intermediary state between calls
+            to setupCircle() """
         cs = self.state_buffer.current_state
-        if checkIfClose(cs.xpos, cs.targetXpos, cs.ypos, cs.targetYpos, 3) == True:
+        if checkIfClose(cs.xpos, cs.targetXpos, cs.ypos, cs.targetYpos, TOLERANCE) == True:
             cs.next_func = self.setupCircle  # setup the next circle 
         else:
             cs.next_func = self.followCircle
@@ -94,31 +113,44 @@ class GameLogic:
         pass
     
     def hitByOpponent(self):
+        """ If accelerometer changes significantly, stop
+            and return to circle """
         self.motor_driver.stop()
         self.state_buffer.current_state.next_func = self.returnToCircle
         pass 
 
     def returnToCircle(self):
+        """ In cases where the main path has been
+            lost, reroute to our old position and
+            setup the circle path again """
         cs = self.state_buffer.current_state
         if cs.prev_func != self.returnToCircle: # state entry
-            for state in reversed(self.state_buffer):
+            for state in self.state_buffer.reversed():
                 if state.func == self.followCircle or state.func == self.setupCircle:
                     position = state.xpos, state.ypos
             self.motor_driver.gotoXY(position[0], position[1])
         else:   # wait until destination reached to restart circle
-            if checkIfClose(cs.xpos, cs.targetXpos, cs.ypos, cs.targetYpos, 3) == True:
+            if checkIfClose(cs.xpos, cs.targetXpos, cs.ypos, cs.targetYpos, TOLERANCE) == True:
                 cs.next_func = self.setupCircle
             else:
                 cs.next_func = self.returnToCircle
         pass
 
     def endgame(self):
+        """ Return to starting position from current
+            location """
+        pass
+
+    def raiseFlag(self):
+        """ Raises the flag at the end of the game """
         pass
 
     def stall(self):
+        """ Just chill until the match is over :) """
         pass
         
     def debug(self):
+        """ Called when 'debug' command line is used """
         print("Do we get here?")
         while True:
             self.owner.motor_driver.resetPosition(0, 0, 0)
@@ -131,7 +163,9 @@ class GameLogic:
             time.sleep(100)
 
 def checkIfClose(x1, x2, y1, y2, tolerance):
-    if abs(x1 - x2) < 3.0:
-        if abs(y1 - y2) < 3.0:
+    """ Used for state transition when
+        a certain point is reached """
+    if abs(x1 - x2) < tolerance:
+        if abs(y1 - y2) < tolerance:
             return True
     return False
