@@ -1,5 +1,6 @@
 import serial
 import time
+import json
 
 from serial_cfg import MOTOR_DRIVER_PORT, BAUD_RATE
 
@@ -14,6 +15,9 @@ class MotorDriverInterface:
 
     def __del__(self):
         self.setMotionAllowed(False)
+
+    def getTelemetry(self):
+        return json.loads(self.port.readline())
 
     def debugWrite(self, s):
         self.port.write(s)
