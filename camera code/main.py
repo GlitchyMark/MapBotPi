@@ -1,4 +1,4 @@
-import sensor, image, time,pyb
+import sensor, image, time, pyb
 thresholds = [(30, 100, 15, 127, 15, 127),
               (30, 100, -21, -3, -56, -14),
               (30, 100, -23, 22, 27, 61)]
