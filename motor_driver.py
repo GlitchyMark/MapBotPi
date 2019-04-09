@@ -41,59 +41,59 @@ class MotorDriverInterface:
             self.debugWrite(b"[setMotionAllowed=0]")
 
     def stop(self):
-        self.debugWrite(b"[stop=0]")
+        self.debugWrite(b"[stop=1]")
 
-    def setTargetVelocities(self, x=None, y=None, a=None):
+    def setTargetVelocities(self, x=None, a=None): #Use this one, sets the velcoity the driver will get to
         if x is not None:
             self.debugWrite(b"[setCommandX=" + str(x).encode('ascii') + b"]")
         if y is not None:
-            self.debugWrite(b"[setCommandY=" + str(y).encode('ascii') + b"]")
+            self.debugWrite(b"[setCommandY=0]")
         if a is not None:
             self.debugWrite(b"[setCommandA=" + str(a).encode('ascii') + b"]")
-        self.debugWrite(b"[setTargetVelocities=0]")
+        self.debugWrite(b"[setTargetVelocities=1]")
 
-    def setMaxVelocities(self, x=None, y=None, a=None):
+    def setMaxVelocities(self, x=None, a=None):
         if x is not None:
             self.debugWrite(b"[setCommandX=" + str(x).encode('ascii') + b"]")
         if y is not None:
-            self.debugWrite(b"[setCommandY=" + str(y).encode('ascii') + b"]")
+            self.debugWrite(b"[setCommandY=0]")
         if a is not None:
             self.debugWrite(b"[setCommandA=" + str(a).encode('ascii') + b"]")
-        self.debugWrite(b"[setMaxVelocities=0]")
+        self.debugWrite(b"[setMaxVelocities=1]")
         
-    def setMaxAccelerations(self, x=None, y=None, a=None):
+    def setMaxAccelerations(self, x=None, a=None):
         if x is not None:
             self.debugWrite(b"[setCommandX=" + str(x).encode('ascii') + b"]")
         if y is not None:
-            self.debugWrite(b"[setCommandY=" + str(y).encode('ascii') + b"]")
+            self.debugWrite(b"[setCommandY=0]")
         if a is not None:
             self.debugWrite(b"[setCommandA=" + str(a).encode('ascii') + b"]")
-        self.debugWrite(b"[setMaxAccelerations=0]")
+        self.debugWrite(b"[setMaxAccelerations=1]")
 
     def setMicrostepping(self, step):
         self.debugWrite(b"[setMicrostepping=" + str(step & 0xFF) + b"]")
 
-    def gotoXYA(self, x=None, y=None, a=None):
+    def gotoXYA(self, x=None, a=None): #Broken for whatever reason.
         if x is not None:
             self.debugWrite(b"[setCommandX=" + str(x).encode('ascii') + b"]")
         if y is not None:
-            self.debugWrite(b"[setCommandY=" + str(y).encode('ascii') + b"]")
+            self.debugWrite(b"[setCommandY=0]")
         if a is not None:
             self.debugWrite(b"[setCommandA=" + str(a).encode('ascii') + b"]")
-        self.debugWrite(b"[gotoXYA=0]")
+        self.debugWrite(b"[gotoXYA=1]")
 
-    def gotoXY(self, x=None, y=None, a=None):
+    def gotoXY(self, x=None, y=None): #Don't use
         if x is not None:
             self.debugWrite(b"[setCommandX=" + str(x).encode('ascii') + b"]")
         if y is not None:
             self.debugWrite(b"[setCommandY=" + str(y).encode('ascii') + b"]")
-        self.debugWrite(b"[gotoXY=0]")
+        self.debugWrite(b"[gotoXY=1]")
 
-    def moveFR(self, f=None, r=None):
+    def moveFR(self, f=None): #Only goes forward
         if f is not None:
             self.debugWrite(b"[setCommandX=" + str(f).encode('ascii') + b"]")
         if r is not None:
-            self.debugWrite(b"[setCommandY=" + str(r).encode('ascii') + b"]")
+            self.debugWrite(b"[setCommandY=0]")
         self.debugWrite(b"[moveFR=0]")
 
     def rotateTo(self, theta):

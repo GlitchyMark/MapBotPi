@@ -14,9 +14,8 @@ class Accelerometer:
         driver """
 
     def __init__(self):
-        pass
-        #self.accel_lib = CDLL("something.so") #TODO: UNCOMMENT
-        #self.accel_lib.init()
+        self.accel_lib = CDLL("something.so") #TODO: UNCOMMENT
+        self.accel_lib.init()
 
     def getAcceleration(self):
         return self.accel_lib.getAcceleration()

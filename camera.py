@@ -14,7 +14,7 @@ class Camera:
 
     def __init__(self, address, baud):
         pass
-        #self.port = serial.Serial(address, baud) #TODO: UNCOMMENT
+        self.port = serial.Serial(address, baud)
 
     def getData(self):
         return json.loads(self.port.readline())

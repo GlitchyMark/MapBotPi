@@ -77,8 +77,8 @@ class GameLogic:
 
     def __init__(self, owner):
         self.owner = owner
-        #self.motor_driver = owner.motor_driver
-        #self.state_buffer = owner.state_buffer
+        self.motor_driver = owner.motor_driver
+        self.state_buffer = owner.state_buffer
 
     def startUp(self):
         """ Initial state, finds the first position
@@ -162,10 +162,7 @@ class GameLogic:
         print("Do we get here?")
         while True:
             self.owner.motor_driver.resetPosition(0, 0, 0)
-            self.owner.motor_driver.setMaxVelocities(3, 0, 2)
-            self.owner.motor_driver.setMaxAccelerations(10, 0, 5)
-            self.owner.motor_driver.moveFR(1000, 0)
-            self.owner.motor_driver.rotateTo(1000)
+            setTargetVelocities(2, 0, 2)
            # self.owner.motor_driver.gotoXYA(10, 10, 90)
             print(self.owner.motor_driver.port.readline())
             time.sleep(100)
