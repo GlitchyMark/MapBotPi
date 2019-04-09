@@ -27,7 +27,7 @@ class Robot:
     def __init__(self):
         self.start_time = time.time()
 
-        self.camera = Camera(MV_PORT, BAUD_RATE)
+        #self.camera = Camera(MV_PORT, BAUD_RATE)
         self.motor_driver = MotorDriverInterface(MOTOR_DRIVER_PORT, BAUD_RATE)
         self.accelerometer = Accelerometer()
         self.logic = GameLogic(self)
