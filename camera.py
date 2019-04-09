@@ -17,4 +17,4 @@ class Camera:
         self.port = serial.Serial(address, baud)
 
     def getData(self):
-        return json.loads(self.port.readline())
+        return json.loads(self.port.readline().rstrip().replace("'",'"'))
