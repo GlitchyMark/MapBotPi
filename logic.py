@@ -77,8 +77,8 @@ class GameLogic:
 
     def __init__(self, owner):
         self.owner = owner
-        self.motor_driver = owner.motor_driver
-        self.state_buffer = owner.state_buffer
+        #self.motor_driver = owner.motor_driver
+        #self.state_buffer = owner.state_buffer
 
     def startUp(self):
         """ Initial state, finds the first position
