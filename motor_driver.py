@@ -17,11 +17,12 @@ class MotorDriverInterface:
 
     def __init__(self, address, baud):
         self.port = serial.Serial(address, baud)
+        self.debugWrite(b"[setCommandY=0]")
         self.setMotionAllowed(True)
         # self.setTargetVelocities(0.3, 0.3, 0.25)
-        self.setMaxVelocities(5, 5, 5)
-        self.setMaxAccelerations(1.5, 1.5, 1.5)
-        self.setMaxAccelerations(1.5, 1.5, 1.5)     # to ensure it doesn't get dropped
+        self.setMaxVelocities(5, 5)
+        self.setMaxAccelerations(1.5, 1.5)
+        self.setMaxAccelerations(1.5, 1.5)     # to ensure it doesn't get dropped
 
     def __del__(self):
         self.setMotionAllowed(False)
@@ -46,8 +47,6 @@ class MotorDriverInterface:
     def setTargetVelocities(self, x=None, a=None): #Use this one, sets the velcoity the driver will get to
         if x is not None:
             self.debugWrite(b"[setCommandX=" + str(x).encode('ascii') + b"]")
-        if y is not None:
-            self.debugWrite(b"[setCommandY=0]")
         if a is not None:
             self.debugWrite(b"[setCommandA=" + str(a).encode('ascii') + b"]")
         self.debugWrite(b"[setTargetVelocities=1]")
@@ -55,8 +54,6 @@ class MotorDriverInterface:
     def setMaxVelocities(self, x=None, a=None):
         if x is not None:
             self.debugWrite(b"[setCommandX=" + str(x).encode('ascii') + b"]")
-        if y is not None:
-            self.debugWrite(b"[setCommandY=0]")
         if a is not None:
             self.debugWrite(b"[setCommandA=" + str(a).encode('ascii') + b"]")
         self.debugWrite(b"[setMaxVelocities=1]")
@@ -64,8 +61,6 @@ class MotorDriverInterface:
     def setMaxAccelerations(self, x=None, a=None):
         if x is not None:
             self.debugWrite(b"[setCommandX=" + str(x).encode('ascii') + b"]")
-        if y is not None:
-            self.debugWrite(b"[setCommandY=0]")
         if a is not None:
             self.debugWrite(b"[setCommandA=" + str(a).encode('ascii') + b"]")
         self.debugWrite(b"[setMaxAccelerations=1]")
@@ -76,8 +71,6 @@ class MotorDriverInterface:
     def gotoXYA(self, x=None, a=None): #Broken for whatever reason.
         if x is not None:
             self.debugWrite(b"[setCommandX=" + str(x).encode('ascii') + b"]")
-        if y is not None:
-            self.debugWrite(b"[setCommandY=0]")
         if a is not None:
             self.debugWrite(b"[setCommandA=" + str(a).encode('ascii') + b"]")
         self.debugWrite(b"[gotoXYA=1]")
@@ -92,8 +85,6 @@ class MotorDriverInterface:
     def moveFR(self, f=None): #Only goes forward
         if f is not None:
             self.debugWrite(b"[setCommandX=" + str(f).encode('ascii') + b"]")
-        if r is not None:
-            self.debugWrite(b"[setCommandY=0]")
         self.debugWrite(b"[moveFR=0]")
 
     def rotateTo(self, theta):
@@ -105,8 +96,6 @@ class MotorDriverInterface:
     def resetPosition(self, x=None, y=None, a=None):
         if x is not None:
             self.debugWrite(b"[setCommandX=" + str(x).encode('ascii') + b"]")
-        if y is not None:
-            self.debugWrite(b"[setCommandY=" + str(y).encode('ascii') + b"]")
         if a is not None:
             self.debugWrite(b"[setCommandA=" + str(a).encode('ascii') + b"]")
         self.debugWrite(b"[resetPosition=0]")

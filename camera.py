@@ -2,7 +2,7 @@
 ##  VCU IEEE ROBOT 2018 - 2019
 ##  
 ##  camera.py
-##  Written by Xander Will
+##  Written by Xander Will / Akib Rhaat
 ##
 ##  'Handles data communication with OpenMV camera'
 

@@ -22,8 +22,8 @@ if len(sys.argv) > 1 and sys.argv[1] == "shutdown":
 def main():
     while True:
         if len(sys.argv) > 1 and sys.argv[1] == "debug":
-            if len(sys.argv) > 4:
-                r.motor_driver.setTargetVelocities(sys.argv[2], sys.argv[3], sys.argv[4])
+            if len(sys.argv) > 3:
+                r.motor_driver.setTargetVelocities(sys.argv[2], sys.argv[3])
             r.logic.debug()
             print(r.motor_driver.port.readline())
         else:
