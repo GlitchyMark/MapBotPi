@@ -6,7 +6,8 @@
 ##
 ##  'Header for serial parameters'
 
-MV_PORT             = "/dev/ttyACM0"
+MV_RIGHT_PORT       = "/dev/ttyACM0"
+MV_LEFT_PORT        = "/dev/ttyAMA0"
 NANO_PORT           = "/dev/ttyUSB1"
 MOTOR_DRIVER_PORT   = "/dev/ttyUSB0"
 

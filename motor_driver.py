@@ -29,17 +29,24 @@ class MotorDriverInterface:
     def __del__(self):
         self.setMotionAllowed(False)
 
+    #   [motionCommandCount=[0-9]+]
     def getTelemetry(self):
         return json.loads(self.port.readline().decode())
 
+    def findMCC(self, string):
+        commands = string.split("[")
+        for command in commands:
+            if command[0:18] == "motionCommandCount":
+                return int(command.split("=")[1].split("]")[0])
+
     def write(self, s):
-        old_cmd_cnt = self.getTelemetry().get("motionCommandCount")
+        old_cmd_cnt = self.findMCC(self.getTelemetry())
         while True:
             self.port.write(s)
             if self.debug == True:
                 print(s)
             time.sleep(3)
-            new_cmd_cnt = self.getTelemetry().get("motionCommandCount")
+            new_cmd_cnt = self.findMCC(self.getTelemetry())
             if old_cmd_cnt < new_cmd_cnt:
                 return   # function exit
             if self.debug == True:

@@ -28,7 +28,8 @@ class Robot:
     def __init__(self):
         self.home = "RED"   # default home base
 
-        self.camera = Camera(MV_PORT, BAUD_RATE)
+        self.camera_left = Camera(MV_LEFT_PORT, BAUD_RATE)
+        self.camera_right = Camera(MV_RIGHT_PORT, BAUD_RATE)
         self.mpu = MPU(NANO_PORT, NANO_BAUD)
         self.motor_driver = MotorDriverInterface(MOTOR_DRIVER_PORT, BAUD_RATE)
         self.logic = GameLogic(self)
@@ -37,7 +38,7 @@ class Robot:
         self.state_buffer = StateBuffer()
 
         self.state_buffer = list()
-        self.state_buffer.addState(State(None,None,None,None))
+        self.state_buffer.addState(State(None,None,None,None,None))
 
     def startTime(self):
         self.start_time = time.time()
@@ -49,24 +50,20 @@ class Robot:
         self.execute()
 
     def updatePosition(self):
-        self.camera_data = self.camera.getData()
+        self.camera_ldata = self.camera_left.getData()
+        self.camera_rdata = self.camera_right.getData()
         self.mpu_data = self.mpu.getData()
-
-        # self.xpos, self.ypos = self.telemetry["xpos"], self.telemetry["ypos"]
-        # for obj in self.camera_data:
-        #     if obj["pole"] is True:
-        #         theta = self.telemetry["angle"] - obj["angle"]
-        #         self.xpos, self.ypos = self.mapper.getCurrPosFromPole(obj["color"], theta, obj["distance"])
  
     def updateState(self):
-        if AccelerationCheck(self.camera_data, self.mpu_data):
+        ps = self.state_buffer.getPrevious()
+        if AccelerationCheck(ps.mpu_d, self.mpu_data):
             func = self.logic.hitByOpponent
         elif self.curr_time >= 150 and self.state_buffer.current_state.prev_func != self.logic.endgame:
             func = self.logic.endgame
         else:
             func = self.state_buffer.current_state.next_func
         prev_func = self.state_buffer.current_state.func
-        self.state_buffer.addState(State(self.camera_data, self.mpu_data, func, prev_func))
+        self.state_buffer.addState(State(self.camera_ldata, self.camera_rdata, self.mpu_data, func, prev_func))
 
     def execute(self):
         self.state_buffer.current_state.func()

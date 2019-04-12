@@ -13,8 +13,9 @@ class State:
     """ Used to track data between logic states, and
         to preserve old data as well """
 
-    def __init__(self, camera_data, mpu_data, func, prev_func):
-        self.camera_d = camera_data
+    def __init__(self, camera_ldata, camera_rdata, mpu_data, func, prev_func):
+        self.camera_ld = camera_ldata
+        self.camera_rd = camera_rdata
         self.mpu_d = mpu_data
         self.func = func
         self.prev_func = None
@@ -74,10 +75,12 @@ class GameLogic:
             of our circle """
         cs = self.state_buffer.current_state
         if cs.prev_func != self.startUp:        # state entry
-            self.owner.home = self.home_lookup.get(cs.camera_data.get("color"))
+            self.owner.home = self.home_lookup.get(cs.camera_rd.get("color"))
             self.motor_driver.setTargetVelocities(x=2, a=0.3) # dunno A yet
             cs.next_func = self.startUp
         else:   # wait until at circle
+            if self.owner.home is None:
+                self.owner.home = self.home_lookup.get(cs.camera_rd.get("color"))
             if cs.camera_d.get("distance") is not None:
                 if checkIfClose(cs.camera_d.get("distance"), 60, TOLERANCE):    # arbitrary value, please test
                     cs.next_func = self.helix  # transition to setupCircle state
@@ -107,36 +110,50 @@ class GameLogic:
         """ If accelerometer changes significantly, stop
             and return to circle """
         self.motor_driver.stop()
-        self.state_buffer.current_state.next_func = self.returnToCircle
-        pass 
+        self.state_buffer.current_state.next_func = self.constantSpin
 
     def returnToCircle(self):
         """ In cases where the main path has been
             lost, reroute to our old position and
             setup the circle path again """
+        # unfinifhsed :()
         cs = self.state_buffer.current_state
-        if cs.prev_func != self.returnToCircle: 
-            pass# state entry
-        #     for state in self.state_buffer.reversed():
-        #         if state.func == self.followCircle or state.func == self.setupCircle:
-        #             position = state.xpos, state.ypos
-        #     self.motor_driver.gotoXY(position[0], position[1])
-        # else:   # wait until destination reached to restart circle
-        #     if checkIfClose(cs.xpos, cs.targetXpos, TOLERANCE) == True:
-        #         cs.next_func = self.setupCircle
-        #     else:
-        #         cs.next_func = self.returnToCircle
-        pass
+        if cs.prev_func != self.returnToCircle: # state entry
+            pass
+           
 
+    before_home_lookup = {
+        "YELLOW"    :   "BLUE",
+        "RED"       :   "YELLOW",
+        "GREEN"     :   "RED",
+        "BLUE"      :   "GREEN"
+    }
     def endgame(self):
-        """ Return to starting position from current
-            location """
-        pass
+        """ Find home base and begin returning """
+        cs = self.state_buffer.current_state
+        self.target_color = self.before_home_lookup.get(self.owner.home)
+        if cs.camera_ld.get("color") == self.target_color:
+            self.motor_driver.setTargetVelocities(x=1.0, a=-0.3)
+            cs.next_func = self.reachHomeBase
+        else:
+            cs.next_func = self.endgame
+
+    def reachHomeBase(self):
+        """ Wait to stop in home base"""
+        cs = self.state_buffer.current_state
+        if cs.camera_rd("distance") <= 14:
+            self.motor_driver.moveFR(f=14)
+            self.motor_driver.stop()
+            cs.next_func = self.raiseFlag
+        else:
+            cs.next_func = self.reachHomeBase
 
     def raiseFlag(self):
         """ Raises the flag at the end of the game """
-        self.flag.raiseFlag()
-        pass
+        cs = self.state_buffer.current_state
+        self.owner.flag.raiseFlag()
+        self.motor_driver.setMotionAllowed(0)
+        cs.next_func = self.stall
 
     def stall(self):
         """ Just chill until the match is over :) """
@@ -149,11 +166,13 @@ class GameLogic:
             #self.owner.motor_driver.resetPosition(0, 0, 0)
             #self.owner.motor_driver.setTargetVelocities(2, 2)
            # self.owner.motor_driver.gotoXYA(10, 10, 90)
-            print(self.owner.motor_driver.port.readline())
-            time.sleep(100)
-            self.flag.lowerFlag()
-            time.sleep(2000)
-            self.flag.raiseFlag()
+           self.helix()
+           
+            # print(self.owner.motor_driver.port.readline())
+            # time.sleep(100)
+            # self.owner.flag.lowerFlag()
+            # time.sleep(2000)
+            # self.owner.flag.raiseFlag()
 
 def checkIfClose(x, y, tolerance):
     """ Used for state transition when
