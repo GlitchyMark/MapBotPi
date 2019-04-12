@@ -41,20 +41,17 @@ class MotorDriverInterface:
                 return int(command.split("=")[1].split("]")[0])
 
     def write(self, s):
-        self.port.write(s)
-        print(s)
-        time.sleep(0.003)
-        # old_cmd_cnt = self.findMCC(self.getTelemetry())
-        # while True:
-        #     self.port.write(s)
-        #     if self.debug == True:
-        #         print(s)
-        #     time.sleep(3)
-        #     new_cmd_cnt = self.findMCC(self.getTelemetry())
-        #     if old_cmd_cnt < new_cmd_cnt:
-        #         return   # function exit
-        #     if self.debug == True:
-        #         print("Message failed, sending again")
+        old_cmd_cnt = self.findMCC(self.getTelemetry())
+        while True:
+            self.port.write(s)
+            if self.debug == True:
+                print(s)
+            time.sleep(0.01)
+            new_cmd_cnt = self.findMCC(self.getTelemetry())
+            if old_cmd_cnt < new_cmd_cnt:
+                return   # function exit
+            if self.debug == True:
+                print("Message failed, sending again")
 
     def setMotionAllowed(self, value):
         if value is True:
