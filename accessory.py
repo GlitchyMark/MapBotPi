@@ -8,7 +8,7 @@
 from gpiozero import AngularServo
 
 class Flag:
-    servoFlag = AngularServo(13, min_agle=-90, max_angle=90)
+    servoFlag = AngularServo(13, min_angle=-90, max_angle=90)
     def __init__(self):
         pass 
     def raiseFlag():
