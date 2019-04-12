@@ -32,7 +32,7 @@ class MotorDriverInterface:
 
     #   [motionCommandCount=[0-9]+]
     def getTelemetry(self):
-        return json.loads(self.port.readline().decode())
+        return self.port.readline().decode()
 
     def findMCC(self, string):
         commands = string.split("[")
