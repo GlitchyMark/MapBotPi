@@ -134,6 +134,7 @@ class GameLogic:
 
     def raiseFlag(self):
         """ Raises the flag at the end of the game """
+        self.flag.raiseFlag()
         pass
 
     def stall(self):
@@ -144,11 +145,14 @@ class GameLogic:
         """ Called when 'debug' command line is used """
         print("Do we get here?")
         while True:
-            self.owner.motor_driver.resetPosition(0, 0, 0)
-            self.owner.motor_driver.setTargetVelocities(2, 2)
+            #self.owner.motor_driver.resetPosition(0, 0, 0)
+            #self.owner.motor_driver.setTargetVelocities(2, 2)
            # self.owner.motor_driver.gotoXYA(10, 10, 90)
             print(self.owner.motor_driver.port.readline())
             time.sleep(100)
+            self.flag.lowerFlag()
+            time.sleep(2000)
+            self.flag.raiseFlag()
 
 def checkIfClose(x, y, tolerance):
     """ Used for state transition when

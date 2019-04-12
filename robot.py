@@ -15,6 +15,7 @@ from mapping import Mapper
 from motor_driver import MotorDriverInterface
 from camera import Camera
 from mpu import MPU
+from accesory import Flag
 
 from serial_cfg import *
 
@@ -32,6 +33,7 @@ class Robot:
         self.motor_driver = MotorDriverInterface(MOTOR_DRIVER_PORT, BAUD_RATE)
         self.logic = GameLogic(self)
         self.mapper = Mapper()
+        self.flag = Flag(self);
         self.state_buffer = StateBuffer()
 
         self.state_buffer = list()
