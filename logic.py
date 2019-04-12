@@ -166,6 +166,7 @@ class GameLogic:
             #self.owner.motor_driver.resetPosition(0, 0, 0)
             #self.owner.motor_driver.setTargetVelocities(2, 2)
            # self.owner.motor_driver.gotoXYA(10, 10, 90)
+           self.owner.motor_driver.setMotionAllowed(True)
            self.helix()
            
             # print(self.owner.motor_driver.port.readline())
