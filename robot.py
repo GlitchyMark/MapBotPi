@@ -38,8 +38,6 @@ class Robot:
         self.logic = GameLogic(self)
         self.mapper = Mapper()
         self.flag = Flag()
-        self.state_buffer = StateBuffer()
-
 
     def startTime(self):
         self.start_time = time.time()

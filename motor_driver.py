@@ -43,6 +43,7 @@ class MotorDriverInterface:
     def write(self, s):
         self.port.write(s)
         print(s)
+        time.sleep(0.0001)
         # old_cmd_cnt = self.findMCC(self.getTelemetry())
         # while True:
         #     self.port.write(s)
@@ -57,9 +58,9 @@ class MotorDriverInterface:
 
     def setMotionAllowed(self, value):
         if value is True:
-            self.write(b"[setMotionAllowed=1]")
+            self.port.write(b"[setMotionAllowed=1]")
         else:
-            self.write(b"[setMotionAllowed=0]")
+            self.port.write(b"[setMotionAllowed=0]")
 
     def stop(self):
         self.write(b"[stop=1]")

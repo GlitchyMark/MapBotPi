@@ -27,7 +27,7 @@ def main():
             else:
                 r.run()
     except KeyboardInterrupt:
-        r.motor_driver.setMotionAllowed(0)
+        r.motor_driver.setMotionAllowed(False)
         exit()  
 
 if __name__ == "__main__":
