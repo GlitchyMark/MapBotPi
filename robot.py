@@ -33,7 +33,7 @@ class Robot:
         self.motor_driver = MotorDriverInterface(MOTOR_DRIVER_PORT, BAUD_RATE)
         self.logic = GameLogic(self)
         self.mapper = Mapper()
-        self.flag = Flag(self);
+        self.flag = Flag()
         self.state_buffer = StateBuffer()
 
         self.state_buffer = list()

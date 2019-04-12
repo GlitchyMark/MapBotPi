@@ -30,7 +30,9 @@ class MotorDriverInterface:
         self.setMotionAllowed(False)
 
     def getTelemetry(self):
-        return json.loads(self.port.readline())
+        x = self.port.readline()
+        print(x)
+        return json.loads(x)
 
     def write(self, s):
         old_cmd_cnt = self.getTelemetry().get("motionCommandCount")
