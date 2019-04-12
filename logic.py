@@ -114,8 +114,9 @@ class GameLogic:
         """ In cases where the main path has been
             lost, reroute to our old position and
             setup the circle path again """
-        # cs = self.state_buffer.current_state
-        # if cs.prev_func != self.returnToCircle: # state entry
+        cs = self.state_buffer.current_state
+        if cs.prev_func != self.returnToCircle: 
+            pass# state entry
         #     for state in self.state_buffer.reversed():
         #         if state.func == self.followCircle or state.func == self.setupCircle:
         #             position = state.xpos, state.ypos
