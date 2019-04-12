@@ -31,7 +31,7 @@ class Robot:
         self.camera_left = Camera(MV_LEFT_PORT, BAUD_RATE)
         self.camera_right = Camera(MV_RIGHT_PORT, BAUD_RATE)
         self.mpu = MPU(NANO_PORT, NANO_BAUD)
-        self.motor_driver = MotorDriverInterface(MOTOR_DRIVER_PORT, BAUD_RATE)
+        self.motor_driver = MotorDriverInterface(MOTOR_DRIVER_PORT, BAUD_RATE, debug=True)
         self.logic = GameLogic(self)
         self.mapper = Mapper()
         self.flag = Flag()
