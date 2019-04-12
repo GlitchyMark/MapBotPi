@@ -23,7 +23,7 @@ def main():
     try:
         while True:
             if len(sys.argv) > 1 and sys.argv[1] == "debug":
-                r.logic.debug()
+                r.logic.debug((sys.argv[2], sys.argv[3]))
             else:
                 r.run()
     except KeyboardInterrupt:

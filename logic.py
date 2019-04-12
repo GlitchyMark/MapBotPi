@@ -159,21 +159,12 @@ class GameLogic:
         """ Just chill until the match is over :) """
         pass
         
-    def debug(self):
+    def debug(self, arg=None):
         """ Called when 'debug' command line is used """
         print("Do we get here?")
         while True:
-            #self.owner.motor_driver.resetPosition(0, 0, 0)
-            #self.owner.motor_driver.setTargetVelocities(2, 2)
-           # self.owner.motor_driver.gotoXYA(10, 10, 90)
-           self.owner.motor_driver.setMotionAllowed(True)
-           self.helix()
-           
-            # print(self.owner.motor_driver.port.readline())
-            # time.sleep(100)
-            # self.owner.flag.lowerFlag()
-            # time.sleep(2000)
-            # self.owner.flag.raiseFlag()
+            self.motor_driver.setTargetVelocities(x=arg[0], a=arg[1])
+            self.static_a += 0.001
 
 def checkIfClose(x, y, tolerance):
     """ Used for state transition when
