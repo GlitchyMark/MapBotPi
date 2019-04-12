@@ -43,7 +43,7 @@ class MotorDriverInterface:
     def write(self, s):
         self.port.write(s)
         print(s)
-        time.sleep(0.0001)
+        time.sleep(0.003)
         # old_cmd_cnt = self.findMCC(self.getTelemetry())
         # while True:
         #     self.port.write(s)

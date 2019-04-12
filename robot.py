@@ -47,6 +47,7 @@ class Robot:
         self.updatePosition()
         self.updateState()
         self.execute()
+        time.sleep(0.5)
 
     def updatePosition(self):
         self.camera_ldata = self.camera_left.getData()
