@@ -87,14 +87,14 @@ class GameLogic:
                 else:
                     cs.next_func = self.startUp
 
-    static_a = 1    # TEST THIS
-    stop_a  = 5    # TEST THIS
+    static_a = 1.0    # TEST THIS
+    stop_a  = 5.0    # TEST THIS
     def helix(self):
         """ Spin in a ever-shrinking circle
             into the center of the arena """
         cs = self.state_buffer.current_state
         self.motor_driver.setTargetVelocities(x=1.0, a=self.static_a)
-        self.static_a += 0.1
+        self.static_a += 0.001
         if self.static_a == self.stop_a:
             cs.next_func = self.constantSpin
         else:
