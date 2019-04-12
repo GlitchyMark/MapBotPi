@@ -27,8 +27,8 @@ class Robot:
         
     def __init__(self):
         self.home = "RED"   # default home base
-        
-        self.state_buffer = list()
+
+        self.state_buffer = StateBuffer()
         self.state_buffer.addState(State(None,None,None,None,None))
 
         self.camera_left = Camera(MV_LEFT_PORT, BAUD_RATE)
