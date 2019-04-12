@@ -6,6 +6,9 @@
 ##
 ##  'Wrappers for various C accessory drivers'
 
+# note: probably need to toss this file and 
+# make an mpu.py that just handles interfacing
+# with the arduino nano 
 
 from ctypes import CDLL
 

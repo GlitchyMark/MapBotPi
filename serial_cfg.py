@@ -7,6 +7,7 @@
 ##  'Header for serial parameters'
 
 MV_PORT             = "/dev/ttyACM0"
+NANO_PORT           = "something"
 MOTOR_DRIVER_PORT   = "/dev/ttyUSB0"
 
 BAUD_RATE         = 57600
