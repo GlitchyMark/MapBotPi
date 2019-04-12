@@ -11,9 +11,9 @@ class Flag:
     servoFlag = AngularServo(13, min_agle=-90, max_angle=90)
     def __init__(self):
         pass 
-    def raiseFlag(self)
+    def raiseFlag():
         servoFlag.angle = 5
-    def lowerFlag(self)
+    def lowerFlag():
         servoFlag.angle = -5
     
 
