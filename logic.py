@@ -165,7 +165,7 @@ class GameLogic:
         while True:
             self.motor_driver.setTargetVelocities(x=arg[0], a=arg[1])
             self.static_a += 0.1
-            time.delay(1)
+            time.sleep(1)
 
 def checkIfClose(x, y, tolerance):
     """ Used for state transition when
