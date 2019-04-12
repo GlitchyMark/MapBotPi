@@ -23,8 +23,9 @@ class MotorDriverInterface:
         self.write(b"[setCommandY=0]")
         self.write(b"[setCommandA=0]")
         self.setMotionAllowed(True)
-        self.setMaxVelocities(5, 5)
-        self.setMaxAccelerations(1.5, 1.5)
+        self.setMotionAllowed(True)
+        self.setMaxVelocities(x=5, y=0, a=5)
+        self.setMaxAccelerations(x=1.5, y=0, a=1.5)
 
     def __del__(self):
         self.setMotionAllowed(False)
@@ -69,6 +70,7 @@ class MotorDriverInterface:
         if y is not None:
             self.write(b"[setCommandY=" + str(y).encode('ascii') + b"]")
         if a is not None:
+            print("a should be: " + str(a))
             self.write(b"[setCommandA=" + str(a).encode('ascii') + b"]")
         self.write(b"[setTargetVelocities=1]")
 
