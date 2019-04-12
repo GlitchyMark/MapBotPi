@@ -38,7 +38,7 @@ class MotorDriverInterface:
         commands = string.split("[")
         for command in commands:
             if command[0:18] == "motionCommandCount":
-                return int(command.split("=")[1].split("]")[0])
+                return float(command.split("=")[1].split("]")[0])
 
     def write(self, s):
         old_cmd_cnt = self.findMCC(self.getTelemetry())
