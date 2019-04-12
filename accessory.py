@@ -5,7 +5,7 @@
 ##  Written by Xander Will
 ##
 ##  'Classes for the flag and the hatch'
-from gpiozero import Servo
+from gpiozero import AngularServo
 
 class Flag:
     servoFlag = AngularServo(13, min_agle=-90, max_angle=90)
