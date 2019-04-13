@@ -30,6 +30,13 @@ class MotorDriverInterface:
     def __del__(self):
         self.setMotionAllowed(False)
 
+    def read(self):
+        while True:
+            try:
+                return self.port.readline().decode()
+            except Exception:
+                continue
+
     def findMCC(self, string):
         commands = string.split("[")
         for command in commands:
@@ -43,11 +50,14 @@ class MotorDriverInterface:
             if self.debug == True:
                 print(s)
             time.sleep(0.001)
-            new_cmd_cnt = self.findMCC(self.port.readline().decode())
-            if old_cmd_cnt < new_cmd_cnt:
-                return   # function exit
-            if self.debug == True:
-                print("Message failed, sending again")
+            try:
+                new_cmd_cnt = self.findMCC(self.port.readline().decode())
+                if old_cmd_cnt < new_cmd_cnt:
+                    return   # function exit
+                if self.debug == True:
+                    print("Message failed, sending again")
+            except ValueError:
+                continue
 
     def setMotionAllowed(self, value):
         if value is True:
