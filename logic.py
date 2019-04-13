@@ -75,15 +75,12 @@ class GameLogic:
             of our circle """
         cs = self.state_buffer.current_state
         if cs.prev_func != self.startUp:        # state entry
-            self.owner.home = self.home_lookup.get(cs.camera_rd.get("color"))
-            self.motor_driver.setTargetVelocities(x=1, a=0.6) # dunno A yet
+            self.motor_driver.setTargetVelocities(x=-1, a=0.6) # hardcoded from tests
             cs.next_func = self.startUp
-        else:   # wait until at circle
-            if self.owner.home is None:
-                self.owner.home = self.home_lookup.get(cs.camera_rd.get("color"))
+        else:   # wait until first correction check
             if cs.camera_d.get("distance") is not None:
-                if checkIfClose(cs.camera_d.get("distance"), 48, TOLERANCE):    # arbitrary value, please test
-                    cs.next_func = self.constantSpin  # transition to setupCircle state
+                if checkIfClose(cs.camera_d.get("angle"), 0, tolerance=5):    # hardcoded from tests
+                    cs.next_func = self.constantSpin
                 else:
                     cs.next_func = self.startUp
 
@@ -92,25 +89,37 @@ class GameLogic:
     def helix(self):
         """ Spin in a ever-shrinking circle
             into the center of the arena """
-        cs = self.state_buffer.current_state
-        self.motor_driver.setTargetVelocities(x=1.0, a=self.static_a)
-        self.static_a += 0.001
-        if self.static_a == self.stop_a:
-            cs.next_func = self.constantSpin
-        else:
-            cs.next_func = self.helix
+        # not used anymore :(
+
+        # cs = self.state_buffer.current_state
+        # self.motor_driver.setTargetVelocities(x=1.0, a=self.static_a)
+        # self.static_a += 0.001
+        # if self.static_a == self.stop_a:
+        #     cs.next_func = self.constantSpin
+        # else:
+        #     cs.next_func = self.helix
+        pass
     
+    FEEDBACK_COEFF = 0.1
+    FORWARD_V = -2.5
+    angular_v = 20
     def constantSpin(self):
         """ Spin around the center pole """
-        cs = self.state_buffer.current_state
-        self.motor_driver.setTargetVelocities(x=1.0, a=self.stop_a)
         
+        DISTANCE = 35.5
+        
+
+        cs = self.state_buffer.current_state
+        if checkIfClose(cs.camera_rd.get("angle"), 0, tolerance=5):
+            self.angular_v += self.FEEDBACK_COEFF*(cs.camera_rd.get("distance") - DISTANCE)
+        self.motor_driver.setTargetVelocities(x=self.FORWARD_V, a=self.angular_v)
         cs.next_func = self.constantSpin
     
     def hitByOpponent(self):
         """ If accelerometer changes significantly, stop
             and return to circle """
         self.motor_driver.stop()
+        self.motor_driver.moveFR(f=-2)
         self.state_buffer.current_state.next_func = self.constantSpin
 
     def returnToCircle(self):
@@ -162,15 +171,19 @@ class GameLogic:
         
     def debug(self, arg=None):
         """ Called when 'debug' command line is used """
+        if arg is not None:
+            self.FORWARD_V = arg[0]
+            self.angular_v = arg[1]
+            self.FEEDBACK_COEFF = arg[2]
         while True:
-            self.motor_driver.setTargetVelocities(x=-1, a=0.6)
-            time.sleep(2)
-            self.motor_driver.setTargetVelocities(x=arg[0], a=arg[1])
-            time.sleep(1000)
+            self.owner.run()
 
 def checkIfClose(x, y, tolerance):
     """ Used for state transition when
         a certain point is reached """
-    if abs(x - y) < tolerance:
-        return True
-    return False
+    try:
+        if abs(x - y) < tolerance:
+            return True
+        return False
+    except:
+        return False

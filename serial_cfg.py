@@ -11,5 +11,6 @@ MV_LEFT_PORT        = "/dev/ttyAMA0"
 NANO_PORT           = "/dev/ttyUSB0"
 MOTOR_DRIVER_PORT   = "/dev/ttyUSB1"
 
-BAUD_RATE  = 57600
+MD_BAUD    = 57600
+MV_BAUD    = 115200
 NANO_BAUD  = 19200

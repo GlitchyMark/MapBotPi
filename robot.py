@@ -13,9 +13,7 @@ import time
 from logic import State, StateBuffer, GameLogic
 from mapping import Mapper
 from motor_driver import MotorDriverInterface
-from camera import Camera
-from mpu import MPU
-from accessory import Flag
+from peripheral import Camera, MPU, Flag
 
 from serial_cfg import *
 
@@ -25,19 +23,19 @@ class Robot:
         buffer manipulation, time management
         and minor bits of logic """
         
-    def __init__(self):
-        self.home = "RED"   # default home base
-
+    def __init__(self, debug=False):
         self.state_buffer = StateBuffer()
         self.state_buffer.addState(State(None,None,None,None,None))
 
-        self.camera_left = Camera(MV_LEFT_PORT, BAUD_RATE)
-        self.camera_right = Camera(MV_RIGHT_PORT, BAUD_RATE)
+        self.camera_left = Camera(MV_LEFT_PORT, MV_BAUD, debug)
+        self.camera_right = Camera(MV_RIGHT_PORT, MV_BAUD, debug)
         self.mpu = MPU(NANO_PORT, NANO_BAUD)
-        self.motor_driver = MotorDriverInterface(MOTOR_DRIVER_PORT, BAUD_RATE, debug=True)
+        self.motor_driver = MotorDriverInterface(MOTOR_DRIVER_PORT, MD_BAUD, debug)
         self.logic = GameLogic(self)
         self.mapper = Mapper()
         self.flag = Flag()
+
+        self.home = self.camera_left.getData().get("color")
 
     def startTime(self):
         self.start_time = time.time()
@@ -47,7 +45,7 @@ class Robot:
         self.updatePosition()
         self.updateState()
         self.execute()
-        time.sleep(0.5)
+        time.sleep(0.1)
 
     def updatePosition(self):
         self.camera_ldata = self.camera_left.getData()
@@ -55,14 +53,17 @@ class Robot:
         self.mpu_data = self.mpu.getData()
  
     def updateState(self):
+        cs = self.state_buffer.current_state
         ps = self.state_buffer.getPrevious()
-        if AccelerationCheck(ps.mpu_d, self.mpu_data):
+        if cs.func is None:
+            cs.next_func = self.logic.startUp
+        elif AccelerationCheck(ps.mpu_d, self.mpu_data):
             func = self.logic.hitByOpponent
-        elif self.curr_time >= 150 and self.state_buffer.current_state.prev_func != self.logic.endgame:
+        elif self.curr_time >= 150 and cs.prev_func != self.logic.endgame:
             func = self.logic.endgame
         else:
-            func = self.state_buffer.current_state.next_func
-        prev_func = self.state_buffer.current_state.func
+            func = cs.next_func
+        prev_func = cs.func
         self.state_buffer.addState(State(self.camera_ldata, self.camera_rdata, self.mpu_data, func, prev_func))
 
     def execute(self):
@@ -76,7 +77,7 @@ def AccelerationCheck(new_a, old_a):
         for num in diff:
             if num > 40:    # arbitrary value? please test
                 return True
-    except Exception:
+    except:
         print("Acceleration check failed: use MPU data only!")
     finally:
         return False

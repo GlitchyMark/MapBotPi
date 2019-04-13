@@ -1,5 +1,7 @@
 import sensor, image, time, pyb
 
+time.sleep(1)
+
 thresholds = [(30, 100, 30, 80, -10, 46),
               (30, 100, -21, -3, -56, -14),
               (30, 100, -23, 22, 27, 61),
