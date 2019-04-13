@@ -3,8 +3,13 @@ thresholds = [(30, 100, 30, 80, -10, 46),
               (30, 100, -21, -3, -56, -14),
               (30, 100, -23, 22, 27, 61),
               (30, 100, -58, -23, -3, 47)]
-led = pyb.LED(3)
-usb = pyb.USB_VCP()
+
+red_led = pyb.LED(1)
+green_led = pyb.LED(2)
+blue_led = pyb.LED(3)
+ir_leds = pyb.LED(4)
+
+
 sensor.reset()
 sensor.set_pixformat(sensor.RGB565)
 sensor.set_framesize(sensor.QVGA)
@@ -21,13 +26,14 @@ def detectAllColours(img):
     for blob in img.find_blobs(thresholds, pixels_threshold=300, area_threshold=300,roi = [0,66,321,175]):
 
         if blob.code() == 1:
+            red_led.on()
             img.draw_rectangle(blob.rect())
             img.draw_cross(blob.cx(), blob.cy())
             x,y,width,height =blob.rect()
             dist = (3529.5)/height
             redDistX = centerX - blob.cx()
             if redDistX < 0:
-                ActualAngle = (redDistX/img.width()) * angleOfConcern
+                ActualAngle = (redDistX/(img.width())/2) * angleOfConcern
                 if(printStatus):
                     redStat = {"Red_Pole_Angle":ActualAngle,"Red_Pole_Distance":dist}
                     print(redStat)
@@ -101,8 +107,8 @@ def detectAllColours(img):
 
 
 
+
 while(True):
-    led.off()
     clock.tick()
     img = sensor.snapshot()
     centerX = int(img.width()/2)
