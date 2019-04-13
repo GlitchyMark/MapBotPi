@@ -161,11 +161,11 @@ class GameLogic:
         
     def debug(self, arg=None):
         """ Called when 'debug' command line is used """
-        print("Do we get here?")
         while True:
+            self.motor_driver.setTargetVelocities(x=-1, a=0.6)
+            time.sleep(2)
             self.motor_driver.setTargetVelocities(x=arg[0], a=arg[1])
-            self.static_a += 0.1
-            time.sleep(1)
+            time.sleep(1000)
 
 def checkIfClose(x, y, tolerance):
     """ Used for state transition when
