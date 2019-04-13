@@ -76,14 +76,14 @@ class GameLogic:
         cs = self.state_buffer.current_state
         if cs.prev_func != self.startUp:        # state entry
             self.owner.home = self.home_lookup.get(cs.camera_rd.get("color"))
-            self.motor_driver.setTargetVelocities(x=2, a=0.3) # dunno A yet
+            self.motor_driver.setTargetVelocities(x=1, a=0.6) # dunno A yet
             cs.next_func = self.startUp
         else:   # wait until at circle
             if self.owner.home is None:
                 self.owner.home = self.home_lookup.get(cs.camera_rd.get("color"))
             if cs.camera_d.get("distance") is not None:
-                if checkIfClose(cs.camera_d.get("distance"), 60, TOLERANCE):    # arbitrary value, please test
-                    cs.next_func = self.helix  # transition to setupCircle state
+                if checkIfClose(cs.camera_d.get("distance"), 48, TOLERANCE):    # arbitrary value, please test
+                    cs.next_func = self.constantSpin  # transition to setupCircle state
                 else:
                     cs.next_func = self.startUp
 
@@ -104,6 +104,7 @@ class GameLogic:
         """ Spin around the center pole """
         cs = self.state_buffer.current_state
         self.motor_driver.setTargetVelocities(x=1.0, a=self.stop_a)
+        
         cs.next_func = self.constantSpin
     
     def hitByOpponent(self):
