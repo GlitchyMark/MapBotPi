@@ -69,10 +69,14 @@ class Robot:
         self.state_buffer.current_state.func()
 
 def AccelerationCheck(new_a, old_a):
-    new_a_tup = new_a.get("ax"), new_a.get("ay"), new_a.get("az")
-    old_a_tup = old_a.get("ax"), old_a.get("ay"), old_a.get("az")
-    diff = abs(new_a_tup - old_a_tup)
-    for num in diff:
-        if num > 40:    # arbitrary value? please test
-            return True
-    return False
+    try:
+        new_a_tup = new_a.get("ax"), new_a.get("ay"), new_a.get("az")
+        old_a_tup = old_a.get("ax"), old_a.get("ay"), old_a.get("az")
+        diff = abs(new_a_tup - old_a_tup)
+        for num in diff:
+            if num > 40:    # arbitrary value? please test
+                return True
+    except Exception:
+        print("Acceleration check failed: use MPU data only!")
+    finally:
+        return False

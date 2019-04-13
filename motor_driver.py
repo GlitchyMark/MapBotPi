@@ -24,15 +24,11 @@ class MotorDriverInterface:
         self.write(b"[setCommandA=0]")
         self.setMotionAllowed(True)
         self.setMotionAllowed(True)
-        self.setMaxVelocities(x=5, y=0, a=5)
-        self.setMaxAccelerations(x=1.5, y=0, a=1.5)
+        self.setMaxVelocities(x=5, a=5)
+        self.setMaxAccelerations(x=1.5, a=1.5)
 
     def __del__(self):
         self.setMotionAllowed(False)
-
-    #   [motionCommandCount=[0-9]+]
-    def getTelemetry(self):
-        return self.port.readline().decode()
 
     def findMCC(self, string):
         commands = string.split("[")
@@ -41,13 +37,13 @@ class MotorDriverInterface:
                 return float(command.split("=")[1].split("]")[0])
 
     def write(self, s):
-        old_cmd_cnt = self.findMCC(self.getTelemetry())
+        old_cmd_cnt = self.findMCC(self.port.readline().decode())
         while True:
             self.port.write(s)
             if self.debug == True:
                 print(s)
-            time.sleep(0.01)
-            new_cmd_cnt = self.findMCC(self.getTelemetry())
+            time.sleep(0.001)
+            new_cmd_cnt = self.findMCC(self.port.readline().decode())
             if old_cmd_cnt < new_cmd_cnt:
                 return   # function exit
             if self.debug == True:
@@ -62,13 +58,12 @@ class MotorDriverInterface:
     def stop(self):
         self.write(b"[stop=1]")
 
-    def setTargetVelocities(self, x=None, y=None, a=None): #Use this one, sets the velocity the driver will get to
+    def setTargetVelocities(self, x=None, y=None, a=None):
         if x is not None:
             self.write(b"[setCommandX=" + str(x).encode('ascii') + b"]")
         if y is not None:
             self.write(b"[setCommandY=" + str(y).encode('ascii') + b"]")
         if a is not None:
-            print("a should be: " + str(a))
             self.write(b"[setCommandA=" + str(a).encode('ascii') + b"]")
         self.write(b"[setTargetVelocities=1]")
 
@@ -93,7 +88,7 @@ class MotorDriverInterface:
     def setMicrostepping(self, step):
         self.write(b"[setMicrostepping=" + str(step & 0xFF) + b"]")
 
-    def gotoXYA(self, x=None, y=None, a=None): #Broken for whatever reason.
+    def gotoXYA(self, x=None, y=None, a=None):
         if x is not None:
             self.write(b"[setCommandX=" + str(x).encode('ascii') + b"]")
         if y is not None:
@@ -102,14 +97,14 @@ class MotorDriverInterface:
             self.write(b"[setCommandA=" + str(a).encode('ascii') + b"]")
         self.write(b"[gotoXYA=1]")
 
-    def gotoXY(self, x=None, y=None): #Don't use
+    def gotoXY(self, x=None, y=None):
         if x is not None:
             self.write(b"[setCommandX=" + str(x).encode('ascii') + b"]")
         if y is not None:
             self.write(b"[setCommandY=" + str(y).encode('ascii') + b"]")
         self.write(b"[gotoXY=1]")
 
-    def moveFR(self, f=None, r=None): #Only goes forward
+    def moveFR(self, f=None, r=None):
         if f is not None:
             self.write(b"[setCommandX=" + str(f).encode('ascii') + b"]")
         if r is not None:
@@ -130,4 +125,3 @@ class MotorDriverInterface:
         if a is not None:
             self.write(b"[setCommandA=" + str(a).encode('ascii') + b"]")
         self.write(b"[resetPosition=0]")
-        print(self.port.readline())
